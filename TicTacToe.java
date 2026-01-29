@@ -38,8 +38,47 @@ public class TicTacToe {
     // but will also have to check for diagonals
     // a win in this case is classified by three consecutive characters
     public Status gameStatus () {
+        // first we will check each row for a win
+        // checking for three consecutive characters of the same kind
+        for (int row = 0; row < BOARDSIZE; row ++){
+            // you need to check that the first cell is empty if not the test case:
+            // ' ' ' ' ' ' of three consecutive blanks would count as a win
+            if (board[row][0] != ' ' && board[row][0] == board [row][1] && board [row][1] == board [row][2]){
+                return Status.WIN;
+            }
+        }
 
+        // checking through all the columns for a win
+        for (int col = 0; col < BOARDSIZE; col ++){
+            if (board[0][col] != ' ' && board [0][col] == board[1][col] && board[1][col]== board[2][col]){
+                return Status.WIN;
+            }
+        }
+
+        // now need to check the diagonals
+        // first check top left to bottom right
+        if (board[0][0]!= ' ' && board [0][0] == board [1][1] && board [1][1] == board[2][2]){
+            return Status.WIN;
+        }
+
+        // next check top right to bottom left
+        if (board[0][2]!= ' ' && board [0][2] == board [1][1] && board [1][1] == board[2][0]){
+            return Status.WIN;
+        }
+
+        // next check if there is an empty space for the game to continue
+        for (int r = 0; r < BOARDSIZE; r++){
+            for (int c = 0; c < BOARDSIZE; c++){
+                if (board[r][c] == ' '){
+                    return Status.CONTINUE;
+                }
+            }
+        }
+
+        // after doing all these checks, the only option is that the game result in a draw;
+        return Status.DRAW;
     }
+
 
     // this function will print the board and it's contents
     public void printBoard(){
@@ -67,8 +106,8 @@ public class TicTacToe {
     // void function will place the symbol into the respective position
     // but will first call the validMove function to make sure the position is valid
     // then will place accordingly with respect to the bounds of the matrix
-    public void placeSymbol (int col, int row, char val){
-        if (validMove(col,row)){
+    public void placeSymbol (int row, int col, char val){
+        if (validMove(row,col)){
             board [row-1][col-1] = val;
             /* Note, index starts at 0 so if the user enters row 1 col 1 we really want row 0 col 0
             having this makes it easier for the user to enter the row they want
@@ -97,9 +136,68 @@ public class TicTacToe {
             System.out.println ("That spot is already taken.");
             return false;
         }
-        return false;
+        return true;
     }
 
+    // function to be called in main will be used to play the game
+    public void play(){
+        // create a new scanner for user input
+        Scanner cin = new Scanner (System.in);
+
+        // loop continues as long as the game is not over
+        while (!gameOver){
+            // print the board
+            printBoard();
+
+            // display whos turn it is
+            // if the firstPlayer is true then they are x or player 1
+            // otherwise they are 0 or players 2
+            printStatus (firstPlayer ? 1 : 2);
+
+            // ask the user for the row
+            System.out.print("Enter row: ");
+            int row = cin.nextInt();
+
+            // ask the user for the column
+            System.out.print("Enter column: ");
+            int col = cin.nextInt();
+
+            // determine which symbol to place
+            // first player uses x and the second uses 0
+
+            char symbol = firstPlayer ? 'X' : 'O';
+            // check if the move is valid before placing
+            if (validMove (row, col)){
+                // place the symbol calling the place Symbol method
+                placeSymbol(row,col, symbol);
+
+                // check the status of the game
+                Status result = gameStatus();
+
+                // if someone won
+                if (result == Status.WIN){
+                    printBoard();
+                    System.out.println("Player " + symbol + " won!");
+                    gameOver = true; // to terminate the loop
+                }
+                else if (result == Status.DRAW){
+                    printBoard();
+                    System.out.println("It's a draw, gg's.");
+                    gameOver = true;
+                }
+                // the game will continue and we need to change turns
+                else {
+                    // switch the player
+                    firstPlayer = !firstPlayer;
+                }
+
+            }
+            // if the move is invalid the loop repeats and player tries again
+        }
+
+        // close the scanner
+        cin.close();
+    }
 
 
 
