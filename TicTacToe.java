@@ -167,25 +167,43 @@ public class TicTacToe {
             // if the firstPlayer is true then they are x or player 1
             // otherwise they are 0 or players 2
             printStatus (firstPlayer ? 1 : 2);
-
-            do {
+            while (true) {
                 // ask the user for the row
                 System.out.print("Enter row: ");
+                // checks if the next value enterd is an ent
+                while (!cin.hasNextInt()){
+                    System.out.println("Please enter an int value...");
+                    cin.next(); // kind of like cin.ignore
+                    System.out.println("Enter row: ");
+                }
                 row = cin.nextInt();
-                validRow = isInt(String.valueOf(row));
+
+                // ask the user for the col
+                System.out.print("Enter col: ");
+                // checks if the next value enterd is an ent
+                while (!cin.hasNextInt()){
+                    System.out.println("Please enter an int value...");
+                    cin.next(); // kind of like cin.ignore
+                    System.out.println("Enter col: ");
+                }
+                col = cin.nextInt();
+
+                if (validMove(row,col)){
+                    break;
+                }
+            }
+
                 // ask the user for the column
                 System.out.print("Enter column: ");
                 col = cin.nextInt();
-                validCol = isInt(String.valueOf(col));
-            }while (!validRow || !validCol);
-            // determine which symbol to place
-            // first player uses x and the second uses 0
+
+            }
 
             char symbol = firstPlayer ? 'X' : 'O';
             // check if the move is valid before placing
-            if (validMove (row, col)){
-                // place the symbol calling the place Symbol method
-                placeSymbol(row,col, symbol);
+            //   if (validMove (row, col)){
+            // place the symbol calling the place Symbol method
+            placeSymbol(row,col, symbol);
 
                 // check the status of the game
                 Status result = gameStatus();
@@ -207,9 +225,9 @@ public class TicTacToe {
                     firstPlayer = !firstPlayer;
                 }
 
-            }
+
             // if the move is invalid the loop repeats and player tries again
-        }
+     //   }
 
         // close the scanner
         cin.close();
