@@ -197,33 +197,35 @@ public class TicTacToe {
                 System.out.print("Enter column: ");
                 col = cin.nextInt();
 
-            }
-
             char symbol = firstPlayer ? 'X' : 'O';
             // check if the move is valid before placing
             //   if (validMove (row, col)){
             // place the symbol calling the place Symbol method
             placeSymbol(row,col, symbol);
 
-                // check the status of the game
-                Status result = gameStatus();
+            // check the status of the game
+            Status result = gameStatus();
 
-                // if someone won
-                if (result == Status.WIN){
-                    printBoard();
-                    System.out.println("Player " + symbol + " won!");
-                    gameOver = true; // to terminate the loop
-                }
-                else if (result == Status.DRAW){
-                    printBoard();
-                    System.out.println("It's a draw, gg's.");
-                    gameOver = true;
-                }
-                // the game will continue and we need to change turns
-                else {
-                    // switch the player
-                    firstPlayer = !firstPlayer;
-                }
+            // if someone won
+            if (result == Status.WIN){
+                printBoard();
+                System.out.println("Player " + symbol + " won!");
+                gameOver = true; // to terminate the loop
+            }
+            else if (result == Status.DRAW){
+                printBoard();
+                System.out.println("It's a draw, gg's.");
+                gameOver = true;
+            }
+            // the game will continue and we need to change turns
+            else {
+                // switch the player
+                firstPlayer = !firstPlayer;
+            }
+
+
+        }
+
 
 
             // if the move is invalid the loop repeats and player tries again
