@@ -10,11 +10,24 @@ public class TicTacToe {
     // declare a matrix for the board
     public char [][] board;
 
+
     // declare boolean for the first player
     public boolean firstPlayer;
 
     // declare a boolean for whether the game is over
     public boolean gameOver;
+
+    public boolean validRow;
+    public boolean validCol;
+
+    public boolean isInt(String s){
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException e){
+            return false;
+        }
+    }
 
     // the constructor for the board class
     public TicTacToe (){
@@ -147,6 +160,7 @@ public class TicTacToe {
         // loop continues as long as the game is not over
         while (!gameOver){
             // print the board
+            int col, row;
             printBoard();
 
             // display whos turn it is
@@ -154,14 +168,16 @@ public class TicTacToe {
             // otherwise they are 0 or players 2
             printStatus (firstPlayer ? 1 : 2);
 
-            // ask the user for the row
-            System.out.print("Enter row: ");
-            int row = cin.nextInt();
-
-            // ask the user for the column
-            System.out.print("Enter column: ");
-            int col = cin.nextInt();
-
+            do {
+                // ask the user for the row
+                System.out.print("Enter row: ");
+                row = cin.nextInt();
+                validRow = isInt(String.valueOf(row));
+                // ask the user for the column
+                System.out.print("Enter column: ");
+                col = cin.nextInt();
+                validCol = isInt(String.valueOf(col));
+            }while (!validRow || !validCol);
             // determine which symbol to place
             // first player uses x and the second uses 0
 
