@@ -1,4 +1,8 @@
+
+// Similar to #include iostream in C++
 import java.util.Scanner;
+
+// to be called in main
 public class TicTacToe {
 
     // constant for the BOARDSIZE
@@ -17,17 +21,6 @@ public class TicTacToe {
     // declare a boolean for whether the game is over
     public boolean gameOver;
 
-    public boolean validRow;
-    public boolean validCol;
-
-    public boolean isInt(String s){
-        try {
-            Integer.parseInt(s);
-            return true;
-        } catch (NumberFormatException e){
-            return false;
-        }
-    }
 
     // the constructor for the board class
     public TicTacToe (){
@@ -128,7 +121,7 @@ public class TicTacToe {
         }
     }
 
-    // void function printStatus takes an interger player
+    // void function printStatus takes an integer layer
     // this will print who's turn it is, assuming players 1 is always the one with the X
     // and vice versa
     public void printStatus (int player){
@@ -162,50 +155,53 @@ public class TicTacToe {
             // print the board
             int col, row;
             printBoard();
-
-            // display whos turn it is
+            // calls the function printStatus
             // if the firstPlayer is true then they are x or player 1
             // otherwise they are 0 or players 2
             printStatus (firstPlayer ? 1 : 2);
             while (true) {
                 // ask the user for the row
                 System.out.print("Enter row: ");
-                // checks if the next value enterd is an ent
+
+                // loop will continue so long as the value entered is not an integer
                 while (!cin.hasNextInt()){
-                    System.out.println("Please enter an int value...");
+                    // prompt a short error msg
+                    System.out.println("Error: please enter an int value...");
                     cin.next(); // kind of like cin.ignore
-                    System.out.println("Enter row: ");
+                    // re-ask the user for their row selection
+                    System.out.print("Enter row, pls be an int: ");
                 }
+                // assign the scanner value into row
                 row = cin.nextInt();
 
                 // ask the user for the col
                 System.out.print("Enter col: ");
-                // checks if the next value enterd is an ent
+                // loop continues if int not entered
                 while (!cin.hasNextInt()){
                     System.out.println("Please enter an int value...");
                     cin.next(); // kind of like cin.ignore
-                    System.out.println("Enter col: ");
+                    System.out.print("Enter col, pls be an int: ");
                 }
+                // after the checks, assign the scanner value into col
                 col = cin.nextInt();
 
+                // this is our loop terminator
+                // this will call the function valid move and expect a boolean value
+                // if the function returns true, the loop will break
+                // otherwise we will try again
                 if (validMove(row,col)){
                     break;
                 }
             }
 
-                // ask the user for the column
-                System.out.print("Enter column: ");
-                col = cin.nextInt();
-
+            // use the ternary operator to see what symbol we need to use
             char symbol = firstPlayer ? 'X' : 'O';
-            // check if the move is valid before placing
-            //   if (validMove (row, col)){
             // place the symbol calling the place Symbol method
             placeSymbol(row,col, symbol);
-
-            // check the status of the game
+            // set the status of the game
             Status result = gameStatus();
 
+            // decide an output depending on the corresponding status
             // if someone won
             if (result == Status.WIN){
                 printBoard();
@@ -222,15 +218,7 @@ public class TicTacToe {
                 // switch the player
                 firstPlayer = !firstPlayer;
             }
-
-
         }
-
-
-
-            // if the move is invalid the loop repeats and player tries again
-     //   }
-
         // close the scanner
         cin.close();
     }
