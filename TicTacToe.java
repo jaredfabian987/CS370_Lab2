@@ -135,7 +135,7 @@ public class TicTacToe {
     // otherwise will print an error msg and return false
     public boolean validMove (int row, int col){
         if (row < 1 || row > BOARDSIZE || col < 1 || col > BOARDSIZE){
-            System.out.println("Out of bounds, pls try again");
+            System.out.println("Out of bounds, pls re-enter your values.");
             return false;
         }
         if (board[row-1][col-1] != ' '){
