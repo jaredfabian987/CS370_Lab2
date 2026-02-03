@@ -23,7 +23,7 @@ public class TicTacToe {
 
     // the constructor for the board class
     public TicTacToe (){
-        // intialize new board
+        // initialize new board
         board = new char [BOARDSIZE][BOARDSIZE];
         // set first player to true and gameOVer to false
         firstPlayer = true;
@@ -113,7 +113,7 @@ public class TicTacToe {
     // then will place accordingly with respect to the bounds of the matrix
     public void placeSymbol (int row, int col, char val){
         if (validMove(row,col)){
-            board [row-1][col-1] = val;
+            board [row][col] = val;
             /* Note, index starts at 0 so if the user enters row 1 col 1 we really want row 0 col 0
             having this makes it easier for the user to enter the row they want
              */
@@ -133,11 +133,11 @@ public class TicTacToe {
     // of the matrix and if the space is empty
     // otherwise will print an error msg and return false
     public boolean validMove (int row, int col){
-        if (row < 1 || row > BOARDSIZE || col < 1 || col > BOARDSIZE){
+        if (row < 0 || row >= BOARDSIZE || col < 0 || col >= BOARDSIZE){
             System.out.println("Out of bounds, pls re-enter your values.");
             return false;
         }
-        if (board[row-1][col-1] != ' '){
+        if (board[row][col] != ' '){
             System.out.println ("That spot is already taken.");
             return false;
         }
