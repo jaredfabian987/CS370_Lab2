@@ -1,5 +1,4 @@
 
-// Similar to #include iostream in C++
 import java.util.Scanner;
 
 // to be called in main
